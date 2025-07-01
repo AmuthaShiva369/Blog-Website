@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Awesome Blog</title>
+    <!-- Link to Tailwind CSS CDN for modern and responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /*
+         * Embedded styles.css content
+         * This section contains custom CSS rules, providing specific styles for the blog website's layout,
+         * typography, and responsiveness.
+         */
+
+        /* General body styling for a clean, modern look */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* A clean, modern font */
+            margin: 0; /* Remove default body margin */
+            padding: 0; /* Remove default body padding */
+            background-color: #f9f9f9; /* Very light background */
+            color: #333; /* Dark gray text color */
+            line-height: 1.7; /* Improved readability for body text */
+            /* Antialiasing for smoother font rendering */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header section styling */
+        header {
+            background-color: #fff; /* White header background */
+            color: #333; /* Dark gray text color */
+            padding: 1.5em 20px; /* Padding above/below and left/right */
+            text-align: center; /* Center align content */
+            border-bottom: 1px solid #eee; /* Light gray border at the bottom */
+        }
+
+        /* Main title (H1) styling within the header */
+        header h1 {
+            margin: 0; /* Remove default margin */
+            font-size: 2em; /* Relatively large font size */
+            font-weight: 400; /* Lighter font weight for a cleaner look */
+        }
+
+        /* Navigation list styling */
+        nav ul {
+            list-style: none; /* Remove bullet points */
+            padding: 0; /* Remove default padding */
+            margin: 1em 0 0; /* Margin above the list */
+        }
+
+        /* Navigation list item styling */
+        nav ul li {
+            display: inline; /* Display items in a single line */
+            margin: 0 1.5em; /* Horizontal spacing between items */
+        }
+
+        /* Navigation link styling */
+        nav a {
+            color: #555; /* Medium gray link color */
+            text-decoration: none; /* Remove underline */
+            font-weight: 300; /* Even lighter for navigation */
+            transition: color 0.3s ease; /* Smooth color transition on hover */
+        }
+
+        /* Navigation link hover effect */
+        nav a:hover {
+            color: #007bff; /* A subtle accent blue color on hover */
+        }
+
+        /* Main content area styling */
+        main {
+            padding: 30px 20px; /* Padding inside the main content area */
+            max-width: 800px; /* Narrower content area for better readability */
+            margin: 30px auto; /* Center the main content area horizontally with margin */
+            background-color: #fff; /* White background for content cards */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Very subtle shadow for a lifted effect */
+            border-radius: 8px; /* Soft rounded corners for the main container */
+        }
+
+        /* Initial state for blog posts before they are animated */
+        .blog-post {
+            margin-bottom: 40px; /* Space between blog posts */
+            padding-bottom: 30px; /* Padding at the bottom of each post */
+            border-bottom: 1px solid #eee; /* Separator line between posts */
+            opacity: 0; /* Initially hidden for animation */
+            transform: translateY(20px); /* Move down slightly */
+            transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transition for animation */
+        }
+
+        /* Final state for blog posts when they are in view (animated in) */
+        .blog-post.show {
+            opacity: 1; /* Become fully opaque */
+            transform: translateY(0); /* Move to its original position */
+        }
+
+        /* No border or padding for the last blog post */
+        .blog-post:last-child {
+            border-bottom: none; /* Remove border for the last post */
+            padding-bottom: 0; /* Remove padding for the last post */
+            margin-bottom: 0; /* Remove margin for the last post */
+        }
+
+        /* Blog post title styling */
+        .post-title {
+            color: #333; /* Dark gray title color */
+            font-size: 1.75em; /* Font size for post titles */
+            margin-bottom: 0.5em; /* Space below title */
+            font-weight: 500; /* Medium font weight */
+        }
+
+        /* Blog post date styling */
+        .post-date {
+            color: #777; /* Medium-light gray date color */
+            font-size: 0.85em; /* Smaller font size for date */
+            margin-bottom: 1.2em; /* Space below date */
+        }
+
+        /* Blog post image styling */
+        .post-image {
+            max-width: 100%; /* Ensure image fits within its container */
+            height: auto; /* Maintain aspect ratio */
+            margin-bottom: 1.5em; /* Space below image */
+            border-radius: 6px; /* Soften image corners */
+            display: block; /* Ensure image behaves as a block element */
+        }
+
+        /* Blog post content styling */
+        .post-content {
+            line-height: 1.8; /* Increased line height for readability */
+            color: #444; /* Slightly lighter gray for content text */
+        }
+
+        /* Comment section container styling */
+        .comment-section {
+            margin-top: 30px; /* Space above comment section */
+            padding-top: 20px; /* Padding at the top of comment section */
+            border-top: 1px solid #ddd; /* Separator line above comment section */
+        }
+
+        /* Comments section heading (H3) styling */
+        .comment-section h3 {
+            font-size: 1.2em; /* Font size for comments heading */
+            color: #555; /* Medium gray color */
+            margin-bottom: 1em; /* Space below heading */
+        }
+
+        /* List of comments container styling */
+        .comments-list {
+            margin-bottom: 1.5em; /* Space below comments list */
+        }
+
+        /* Individual comment styling */
+        .comment-item { /* Changed from .comment to .comment-item to match JS */
+            border: 1px solid #eee; /* Light border around each comment */
+            padding: 15px; /* Padding inside the comment box */
+            margin-bottom: 10px; /* Space between comments */
+            border-radius: 6px; /* Rounded corners for comments */
+            background-color: #fefefe; /* Very light background for comments */
+        }
+
+        /* Comment author name styling */
+        .comment-author {
+            font-weight: bold; /* Bold font for author name */
+            margin-bottom: 0.3em; /* Small space below author name */
+            color: #333; /* Dark gray color */
+        }
+
+        /* Comment form heading (H4) styling */
+        .comment-form h4 {
+            font-size: 1em; /* Font size for form heading */
+            color: #555; /* Medium gray color */
+            margin-top: 1.5em; /* Space above form heading */
+            margin-bottom: 0.8em; /* Space below form heading */
+        }
+
+        /* Comment form text input and textarea styling */
+        .comment-form input[type="text"],
+        .comment-form textarea {
+            width: calc(100% - 24px); /* Full width minus padding and border */
+            padding: 12px; /* Padding inside inputs */
+            margin-bottom: 12px; /* Space below inputs */
+            border: 1px solid #ccc; /* Light gray border */
+            border-radius: 4px; /* Slightly rounded corners */
+            box-sizing: border-box; /* Include padding and border in width */
+            font-size: 1em; /* Font size for input text */
+        }
+
+        /* Comment form button styling */
+        .comment-form button {
+            background-color: #007bff; /* Modern blue accent color */
+            color: white; /* White text color */
+            padding: 12px 20px; /* Padding inside button */
+            border: none; /* No border */
+            border-radius: 6px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            font-size: 1em; /* Font size for button text */
+            transition: background-color 0.3s ease; /* Smooth color transition on hover */
+        }
+
+        /* Comment form button hover effect */
+        .comment-form button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* Footer section styling */
+        footer {
+            text-align: center; /* Center align footer text */
+            padding: 1.5em 20px; /* Padding above/below and left/right */
+            background-color: #f9f9f9; /* Light background */
+            color: #777; /* Medium-light gray text color */
+            border-top: 1px solid #eee; /* Light border at the top */
+            position: sticky; /* Make footer sticky at the bottom */
+            bottom: 0; /* Position at the bottom */
+            width: 100%; /* Full width */
+        }
+
+        /* Responsive Design for smaller screens (max-width 768px) */
+        @media (max-width: 768px) {
+            header {
+                padding: 1em 15px; /* Adjust header padding */
+            }
+
+            header h1 {
+                font-size: 1.75em; /* Adjust H1 font size */
+            }
+
+            nav ul li {
+                display: block; /* Stack navigation items vertically */
+                margin: 0.75em 0; /* Adjust vertical margin */
+            }
+
+            main {
+                padding: 20px 15px; /* Adjust main content padding */
+                margin: 20px auto; /* Adjust main content margin */
+                border-radius: 0; /* Remove rounded corners on smaller screens for full width */
+            }
+
+            .blog-post {
+                margin-bottom: 30px; /* Adjust blog post margin */
+                padding-bottom: 20px; /* Adjust blog post padding */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Creative Corner</h1>
+        <nav>
+            <ul>
+                <li><a href="#" data-post="post1">Journey to the Stars</a></li>
+                <li><a href="#" data-post="post2">The Art of Code</a></li>
+                <li><a href="#" data-post="post3">Culinary Adventures</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="blog-container">
+        <!-- Blog posts will be dynamically loaded here by JavaScript -->
+    </main>
+
+    <footer>
+        <p>&copy; 2025 My Awesome Blog. All rights reserved.</p>
+    </footer>
+
+    <template id="blog-post-template">
+        <article class="blog-post">
+            <h2 class="post-title"></h2>
+            <p class="post-date"></p>
+            <img class="post-image" src="" alt="">
+            <div class="post-content"></div>
+            <div class="comment-section">
+                <h3>Comments</h3>
+                <div class="comments-list">
+                    <!-- Comments will be appended here -->
+                </div>
+                <h4>Leave a Comment</h4>
+                <form class="comment-form">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <textarea name="message" placeholder="Your Comment" required></textarea>
+                    <button type="submit">Submit Comment</button>
+                </form>
+            </div>
+        </article>
+    </template>
+
+    <script>
+        // Embedded script.js content
+        // This file handles the dynamic content loading, navigation, comment section functionality,
+        // and scroll-triggered animations for the blog website.
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get references to key DOM elements
+            const blogContainer = document.getElementById('blog-container');
+            const postTemplate = document.getElementById('blog-post-template').content;
+            const navLinks = document.querySelectorAll('nav a');
+
+            /**
+             * Array of blog post data. Each object includes post details and a nested array for comments.
+             * This structure allows comments to be directly associated with their respective posts.
+             */
+            const blogPostsData = [
+                {
+                    id: 'post1',
+                    title: 'Journey to the Stars: A Cosmic Adventure',
+                    date: 'June 15, 2025',
+                    image: 'https://placehold.co/1200x600/60a5fa/ffffff?text=Cosmic+Journey', // Blue background
+                    content: `
+                        <p>Embark on an extraordinary journey through the cosmos, where every star tells a story and every galaxy holds a secret. This post delves into the wonders of space exploration, from the nearest planets to the farthest reaches of the observable universe.</p>
+                        <p>Discover the latest advancements in astrophysics, the mind-boggling scale of cosmic distances, and the persistent human quest to understand our place among the stars. We'll explore phenomena like black holes, nebulae, and pulsars, each more captivating than the last.</p>
+                        <p>Join us as we ponder the possibility of extraterrestrial life and the incredible technologies that allow us to glimpse worlds billions of light-years away. The universe is a vast and mysterious place, and this journey is just the beginning.</p>
+                        <ul>
+                            <li>The awe-inspiring scale of galaxies</li>
+                            <li>Mysteries of dark matter and dark energy</li>
+                            <li>Future of space travel and colonization</li>
+                            <li>The search for habitable exoplanets</li>
+                        </ul>
+                    `,
+                    comments: [
+                        { name: 'Ava', message: 'Love the clean design!' },
+                        { name: 'Liam', message: 'Minimalism is so effective.' }
+                    ]
+                },
+                {
+                    id: 'post2',
+                    title: 'The Art of Code: Crafting Digital Masterpieces',
+                    date: 'June 10, 2025',
+                    image: 'https://placehold.co/1200x600/34d399/ffffff?text=Code+Art', // Green background
+                    content: `
+                        <p>Coding is not just about writing instructions for a machine; it's an art form. This post explores how elegant algorithms and well-structured code can be considered masterpieces, akin to works of art.</p>
+                        <p>We'll look at the beauty in clean syntax, efficient logic, and scalable architectures. From frontend design that captivates users to backend systems that process data with lightning speed, every line of code contributes to a larger digital canvas.</p>
+                        <p>Learn about design patterns, refactoring techniques, and the importance of collaboration in building robust and beautiful software. The journey of a developer is one of continuous learning and creative problem-solving.</p>
+                        <ol>
+                            <li>Clean Code principles and practices</li>
+                            <li>The elegance of functional programming</li>
+                            <li>Version control as collaborative art</li>
+                            <li>Building intuitive user experiences</li>
+                        </ol>
+                    `,
+                    comments: [
+                        { name: 'Mia', message: 'These animations are a nice touch.' }
+                    ]
+                },
+                {
+                    id: 'post3',
+                    title: 'Culinary Adventures: Exploring Flavors from Around the World',
+                    date: 'June 05, 2025',
+                    image: 'https://placehold.co/1200x600/fcd34d/333333?text=Global+Cuisine', // Yellow background
+                    content: `
+                        <p>Join us on a gastronomic tour around the globe, as we discover diverse culinary traditions and tantalizing flavors. Food is a universal language, connecting cultures and telling stories through taste and aroma.</p>
+                        <p>From the spicy street food of Thailand to the comforting pasta dishes of Italy, and the rich stews of West Africa, every region offers a unique culinary identity. This post highlights popular dishes, cooking techniques, and the history behind beloved recipes.</p>
+                        <p>Whether you're an avid home cook or a curious foodie, prepare to have your taste buds ignited. We'll share tips for experimenting with new ingredients and creating your own culinary masterpieces.</p>
+                        <ul>
+                            <li>Spices and their role in global cuisine</li>
+                            <li>The art of fermentation in various cultures</li>
+                            <li>Signature desserts from different continents</li>
+                            <li>Sustainable and ethical food practices</li>
+                        </ul>
+                    `,
+                    comments: []
+                }
+            ];
+
+            /**
+             * Renders a specific blog post into the main content area.
+             * This function dynamically populates the template with post data and its comments.
+             * @param {object} post - The blog post object containing its data (id, title, content, etc.).
+             */
+            function renderPost(post) {
+                // Clone the content from the template
+                const postClone = document.importNode(postTemplate, true);
+
+                // Populate the cloned template with post data
+                postClone.querySelector('.post-title').textContent = post.title;
+                postClone.querySelector('.post-date').textContent = `Published on: ${post.date}`;
+                const postImage = postClone.querySelector('.post-image');
+                postImage.src = post.image;
+                postImage.alt = post.title; // Set alt text for accessibility
+                postClone.querySelector('.post-content').innerHTML = post.content;
+
+                const commentsList = postClone.querySelector('.comments-list');
+                commentsList.innerHTML = ''; // Clear existing comments before re-rendering
+
+                // Display existing comments for this post
+                post.comments.forEach(comment => {
+                    addCommentToDOM(comment.name, comment.message, commentsList);
+                });
+
+                const commentForm = postClone.querySelector('.comment-form');
+                // Add event listener for comment form submission
+                commentForm.addEventListener('submit', (event) => {
+                    event.preventDefault(); // Prevent default form submission (page reload)
+
+                    const nameInput = commentForm.querySelector('input[name="name"]');
+                    const messageInput = commentForm.querySelector('textarea[name="message"]');
+
+                    const userName = nameInput.value.trim();
+                    const userMessage = messageInput.value.trim();
+
+                    if (userName && userMessage) {
+                        const newComment = { name: userName, message: userMessage };
+                        // Add the new comment to the specific post's comments array in our data
+                        post.comments.push(newComment);
+
+                        // Re-render all comments for the current post to include the new one
+                        commentsList.innerHTML = ''; // Clear current comments
+                        post.comments.forEach(comment => {
+                            addCommentToDOM(comment.name, comment.message, commentsList);
+                        });
+
+                        // Clear the form fields after successful submission
+                        nameInput.value = '';
+                        messageInput.value = '';
+                    } else {
+                        // Provide feedback if name or message is empty (using console.warn instead of alert)
+                        console.warn('Please enter both your name and comment to submit.');
+                        // In a production app, you'd show a custom message box or an inline error.
+                    }
+                });
+
+                // Clear previous content in the main container and append the new post
+                blogContainer.innerHTML = '';
+                blogContainer.appendChild(postClone);
+
+                // Apply scroll-triggered animation to the newly loaded post
+                const newBlogPost = blogContainer.querySelector('.blog-post');
+                if (newBlogPost) {
+                    observeElement(newBlogPost);
+                }
+            }
+
+            /**
+             * Creates and appends a new comment element to the comments list in the DOM.
+             * @param {string} name - The name of the comment author.
+             * @param {string} message - The content of the comment.
+             * @param {HTMLElement} commentsListElement - The DOM element where comments should be appended.
+             */
+            function addCommentToDOM(name, message, commentsListElement) {
+                const commentDiv = document.createElement('div');
+                // Add Tailwind classes for consistent styling of comment items
+                commentDiv.classList.add('comment-item'); // Added to match the .comment-item selector in CSS
+
+                const authorPara = document.createElement('p');
+                // Add Tailwind classes for consistent styling of comment author
+                authorPara.classList.add('comment-author'); // Added to match the .comment-author selector in CSS
+                authorPara.textContent = name;
+
+                const messagePara = document.createElement('p');
+                // Add Tailwind classes for consistent styling of comment text
+                messagePara.classList.add('comment-text'); // Added to match the .comment-text selector in CSS
+                messagePara.textContent = message;
+
+                commentDiv.appendChild(authorPara);
+                commentDiv.appendChild(messagePara);
+                commentsListElement.appendChild(commentDiv);
+            }
+
+            // Add event listeners to navigation links to handle post switching
+            navLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent default link behavior (page reload)
+                    const postId = link.getAttribute('data-post'); // Get the post ID from the data-post attribute
+                    const currentPost = blogPostsData.find(post => post.id === postId); // Find the corresponding post data
+
+                    if (currentPost) {
+                        renderPost(currentPost); // Render the found post
+                    }
+                });
+            });
+
+            /**
+             * Intersection Observer for scroll-triggered animations.
+             * Elements will transition in when they become visible in the viewport.
+             */
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // If the element is intersecting (visible), add the 'show' class to trigger animation
+                        entry.target.classList.add('show');
+                        observer.unobserve(entry.target); // Stop observing once it has animated
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible in the viewport
+            });
+
+            /**
+             * Starts observing a given DOM element for intersection, triggering its animation.
+             * @param {HTMLElement} element - The DOM element to observe.
+             */
+            function observeElement(element) {
+                observer.observe(element);
+            }
+
+            // Initial rendering: Display the first blog post when the page loads
+            // This also observes the first post for the scroll-triggered animation.
+            if (blogPostsData.length > 0) {
+                renderPost(blogPostsData[0]);
+            }
+        });
+    </script>
+</body>
+</html>
